@@ -1,0 +1,26 @@
+[push]
+  default = current
+[color]
+  ui = auto # covers diff = true, status = auto, branch = auto
+  interactive = auto
+[alias]
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  gh = !xdg-open "https://github.$(git config remote.origin.url | cut -f2 -d. | tr ':' /)"
+  c = commit
+  a = add
+  s = status
+  d = diff
+  cob = checkout -b
+  up = !git fetch origin && git rebase origin/master
+  ir = !git rebase -i origin/master
+  done = !git fetch && git rebase origin/master && git checkout master && git merge @{-1} && echo git push
+  cleanup = !git remote prune origin && git gc && git clean -dfx && git stash clear
+  who = shortlog -n -s --no-merges
+  rmb = !sh -c 'git branch -D $1 && git push origin :$1'
+  rmall = !git ls-files -z --deleted | xargs -0 git rm
+  this = !git init && git add . && git commit -m \"initial commit\"
+  alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\t=> \\2/' | sort
+  ignore=!([ ! -e .gitignore ] && touch .gitignore) | echo $1 >>.gitignore
+  au = !git add -u && git status
+  aa = !git add . && git add -u && git status
+  dlc = reset --hard @~1
